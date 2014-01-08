@@ -52,7 +52,7 @@ else
     }
 fi
 
-hc pad $monitor $panel_height
+hc pad $monitor $panel_height 0 24 0
 
 {
     ### Event generator ###
@@ -158,10 +158,10 @@ hc pad $monitor $panel_height
                 echo "^togglehide()"
                 if $visible ; then
                     visible=false
-                    hc pad $monitor 0
+                    hc pad $monitor 0 0 24 0
                 else
                     visible=true
-                    hc pad $monitor $panel_height
+                    hc pad $monitor $panel_height 0 24 0
                 fi
                 ;;
             reload)

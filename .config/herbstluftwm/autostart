@@ -154,4 +154,6 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
 done
 
 tint2 &
+sleep 1
+nm-applet &
 
