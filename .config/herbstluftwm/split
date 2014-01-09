@@ -1,0 +1,18 @@
+#!/bin/bash
+# Split Current window and shift the selected window into the new split
+
+function hc() {
+    herbstclient "$@"
+}
+
+if [[ "$1" -ne "horizontal" && "$1" -ne "vertical" ]]; then
+exit 1
+fi
+
+if [[ "$1" == "horizontal" ]]; then
+direction="right"
+elif [[ "$1" == "vertical" ]]; then
+direction="down"
+fi
+
+hc chain , split $1 $2 , shift -e $direction

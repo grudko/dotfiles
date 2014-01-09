@@ -1,0 +1,9 @@
+#!/bin/bash
+
+hc() {
+    herbstclient "$@"
+}
+
+hc move_index $1 
+hc use_index $1 --skip-visible
+

@@ -6,6 +6,8 @@ hc() {
     herbstclient "$@"
 }
 
+dir=~/.config/herbstluftwm
+dmenu='dmenu_run -fn -*-fixed-medium-*-*-*-12-*-*-*-*-*-*-* -nb rgb:1c/1c/1c -nf rgb:cc/ff/00 -sb rgb:72/f9/fc -sf rgb:1c/1c/1c'
 hc emit_hook reload
 
 xsetroot -solid '#5A8E3A'
@@ -18,10 +20,13 @@ hc keyunbind --all
 #Mod=Mod1    # Use alt as the main modifier
 Mod=Mod4   # Use the super key as the main modifier
 
-hc keybind $Mod-Shift-q quit
+hc keybind Control-Alt-BackSpace quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn urxvtcd
+hc keybind $Mod-w spawn firefox
+hc keybind Mod1-F4 close
+hc keybind Mod1-F2 spawn $dmenu
 
 # basic movement
 # focusing clients
@@ -46,8 +51,8 @@ hc keybind $Mod-Shift-l     shift right
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
+hc keybind $Mod-u       spawn $dir/split vertical 0.5
+hc keybind $Mod-o       spawn $dir/split horizontal 0.5
 # let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 
@@ -79,6 +84,11 @@ done
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
+hc keybind $Mod-Alt-Left use_index -1 --skip-visible
+hc keybind $Mod-Alt-Right  use_index +1 --skip-visible
+
+hc keybind $Mod-Alt-Shift-Left spawn $dir/move_use_index -1
+hc keybind $Mod-Alt-Shift-Right spawn $dir/move_use_index +1
 
 # layouting
 hc keybind $Mod-r remove
@@ -153,7 +163,58 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     "$panel" $monitor &
 done
 
-tint2 &
+setxkbmap -layout "us,ru";
+setxkbmap -option "grp:caps_toggle,grp_led:scroll,compose:ralt";
+
+## GNOME PolicyKit and Keyring
+#eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+
+## Group start:
+## 1. nitrogen - restores wallpaper
+## 2. compositor - start
+## 3. sleep - give compositor time to start
+## 4. tint2 panel
+(\
+nitrogen --restore && \
+cb-compositor --start && \
+sleep 2s && \
+tint2 \
+) &
+
+## Volume control for systray
+#(sleep 2s && pnmixer) &
+
+## Volume keys daemon
+xfce4-volumed &
+
+## Enable power management
+xfce4-power-manager &
+
+## Start Thunar Daemon
+#thunar --daemon &
+
+## Detect and configure touchpad. See 'man synclient' for more info.
+if egrep -iq 'touchpad' /proc/bus/input/devices; then
+    synclient VertEdgeScroll=1 &&\
+    synclient RBCornerButton=3 &&\
+    synclient TapButton1=1 &
+fi
+
+## Start xscreensaver
+#xscreensaver -no-splash &
+
+## Start Clipboard manager
+#(sleep 3s && clipit) &
+
+## Set keyboard settings - 250 ms delay and 25 cps (characters per second) repeat rate.
+## Adjust the values according to your preferances.
+xset r rate 250 25 &
+
+## Turn on/off system beep
+xset b off &
+
+## cb-fortune - have Waldorf say a little adage
+#(sleep 120s && cb-fortune) &
+
 sleep 1
 nm-applet &
-
