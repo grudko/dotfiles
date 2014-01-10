@@ -1,4 +1,3 @@
-Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
@@ -17,8 +16,8 @@ URxvt.color10:       #ccff00
 URxvt.color3:        #ffe755
 URxvt.color11:       #ff9f00
 ! blue
-URxvt.color4  : #34346565A4A4
-URxvt.color12 : #72729F9FCFCF
+URxvt.color4  :      #3465A4
+URxvt.color12 :      #729FCF
 ! magenta
 URxvt.color5:        #833c9f
 URxvt.color13:       #be67e1
@@ -34,7 +33,6 @@ URxvt*foreground:White
 ! fonts
 ! run "fc-list" for a list of available fonts
 URxvt*font: xft:symon:Regular:pixelsize=16
-!URxvt.font:            -*-symon-medium-r-*-*-16-*-*-*-*-*-*-r
 URxvt*boldFont:
 
 URxvt*scrollBar: False

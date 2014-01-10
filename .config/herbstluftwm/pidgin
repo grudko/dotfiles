@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function hc() {
+    herbstclient "$@"
+}
+
+hc load '(split horizontal:0.900000:0 (split vertical:0.650000:1 (clients horizontal:0) (clients vertical:1)) (clients max:0))'
+hc rule class=Pidgin index=01
+( hc rule once pid=$BASHPID maxage=10 index=10
+exec pidgin ) &

@@ -25,8 +25,10 @@ hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn urxvtcd
 hc keybind $Mod-w spawn firefox
+hc keybind $Mod-a spawn $dir/pidgin
 hc keybind Mod1-F4 close
 hc keybind Mod1-F2 spawn $dmenu
+hc keybind $Mod-l spawn xscreensaver-command -lock
 
 # basic movement
 # focusing clients
@@ -34,20 +36,12 @@ hc keybind $Mod-Left  focus left
 hc keybind $Mod-Down  focus down
 hc keybind $Mod-Up    focus up
 hc keybind $Mod-Right focus right
-hc keybind $Mod-h     focus left
-hc keybind $Mod-j     focus down
-hc keybind $Mod-k     focus up
-hc keybind $Mod-l     focus right
 
 # moving clients
 hc keybind $Mod-Shift-Left  shift left
 hc keybind $Mod-Shift-Down  shift down
 hc keybind $Mod-Shift-Up    shift up
 hc keybind $Mod-Shift-Right shift right
-hc keybind $Mod-Shift-h     shift left
-hc keybind $Mod-Shift-j     shift down
-hc keybind $Mod-Shift-k     shift up
-hc keybind $Mod-Shift-l     shift right
 
 # splitting frames
 # create an empty frame at the specified direction
@@ -169,16 +163,9 @@ setxkbmap -option "grp:caps_toggle,grp_led:scroll,compose:ralt";
 ## GNOME PolicyKit and Keyring
 #eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 
-## Group start:
-## 1. nitrogen - restores wallpaper
-## 2. compositor - start
-## 3. sleep - give compositor time to start
-## 4. tint2 panel
-(\
-nitrogen --restore && \
-cb-compositor --start && \
-sleep 2s && \
-tint2 \
+(
+nitrogen --restore 
+{ if pidof compton >/dev/null; then killall compton; fi; compton --vsync opengl; }
 ) &
 
 ## Volume control for systray
@@ -201,7 +188,7 @@ if egrep -iq 'touchpad' /proc/bus/input/devices; then
 fi
 
 ## Start xscreensaver
-#xscreensaver -no-splash &
+xscreensaver -no-splash &
 
 ## Start Clipboard manager
 #(sleep 3s && clipit) &
@@ -217,4 +204,5 @@ xset b off &
 #(sleep 120s && cb-fortune) &
 
 sleep 1
+tint2 &
 nm-applet &

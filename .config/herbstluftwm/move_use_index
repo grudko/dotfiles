@@ -4,6 +4,5 @@ hc() {
     herbstclient "$@"
 }
 
-hc move_index $1 
-hc use_index $1 --skip-visible
+hc chain , lock , move_index $1 --skip-visible , use_index $1 --skip-visible , unlock
 
