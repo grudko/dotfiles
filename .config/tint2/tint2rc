@@ -59,7 +59,7 @@ border_color = #888888 20
 # Panel
 panel_monitor = all
 panel_position = bottom center horizontal
-panel_items = TS
+panel_items = TSC
 panel_size = 100% 22
 panel_margin = 0 -1
 panel_padding = 0 0
@@ -142,8 +142,8 @@ time1_font = Liberation Sans 11
 clock_font_color = #b5b5b5 100
 clock_padding = 12 4
 clock_background_id = 0
-clock_lclick_command = gsimplecal
-clock_rclick_command = gsimplecal
+clock_lclick_command = ~/.config/herbstluftwm/calendar.sh
+clock_rclick_command = ~/.config/herbstluftwm/calendar.sh
 
 # Tooltips
 tooltip = 1
